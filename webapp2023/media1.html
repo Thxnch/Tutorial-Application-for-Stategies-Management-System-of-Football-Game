@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>เว็บแอปพลิเคชันสื่อการสอนระบบการจัดการกลยุทธ์การเล่นฟุตบอล</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,400;1,100&display=swap"
+    rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Prompt', sans-serif;
+      padding-top: 56px;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('images/bg2.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
+    }
+
+    .navbar {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1001;
+      background-color: black;
+
+      display: block;
+    }
+
+    .navbar-brand {
+      color: white;
+    }
+
+    ul {
+      position: fixed;
+      top: 56px;
+      /* ปรับค่า top ตามความต้องการ */
+      width: 100vw;
+      left: 0;
+      z-index: 1002;
+      /* ให้ z-index มีค่าสูงกว่า .col-8 */
+      background-color: black;
+      display: block;
+    }
+
+    .col-md-4 {
+      position: fixed;
+      left: 0;
+      z-index: 1003;
+      top: 100px;
+      /* ปรับค่า top ตามความต้องการ */
+      margin-top: 1em;
+      /* ปรับค่า margin-top ตามที่ต้องการ */
+      display: block;
+    }
+
+    .col-md-8 {
+      margin-left: auto;
+      margin-right: 0px;
+      margin-top: 4em;
+      position: sticky;
+      top: 100px;
+      /* ปรับค่า top ตามความต้องการ */
+      z-index: 1000;
+    }
+
+    @media (max-width: 576px) {
+      body {
+        font-size: 14px;
+        /* ปรับขนาดฟ้อนท์เพื่อให้พอดีกับจอโทรศัพท์ */
+      }
+
+      .col-md-4 {
+        flex: 0 0 100%;
+        /* ทำให้ col-md-4 มีขนาดเต็มหน้าจอเมื่ออยู่ในขนาดจอโทรศัพท์ */
+        margin-top: 1px;
+
+      }
+
+      .col-md-8 {
+        margin-top: 7em;
+        position: sticky;
+        top: 0;
+      }
+    }
+
+    .nav-link {
+      color: white;
+    }
+
+    .nav-link.active {
+      color: black;
+      background-color: white;
+      /* หรือสีที่คุณต้องการ */
+      border-radius: 10px;
+    }
+
+    .nav-content {
+      background-color: rgba(255, 255, 255, 0.1);
+      /* สีขาวทึบทับด้วยสีใส */
+      color: white;
+      /* ตัวหนังสือสีขาว */
+      border: 1px solid white;
+      /* ขอบสีขาว */
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    p {
+      color: white;
+    }
+
+    /* ส่วนของ CSS ที่เพิ่มเติม */
+    /* เพิ่ม CSS เพื่อวางวิดีโอตรงกลางแนวนอน */
+    .video-container {
+      position: relative;
+      padding-bottom: 50%;
+      /* 16:9 aspect ratio, adjust as needed */
+      height: 0;
+      overflow: hidden;
+      margin: 0 auto;
+      /* จัดวางวิดีโอตรงกลางแนวนอน */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 800px;
+      /* Optional: กำหนดความกว้างสูงสุดของวิดีโอ */
+      border: 1px solid #ddd;
+      /* เพิ่มเส้นขอบสีเทาสวยงาม */
+      border-radius: 8px;
+      /* เพิ่มขอบมน (rounded corners) */
+    }
+
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      max-width: 800px;
+      /* Optional: Set a maximum width for the video */
+      border: 1px solid #ddd;
+      /* เพิ่มเส้นขอบสีเทาสวยงาม */
+      border-radius: 8px;
+      /* เพิ่มขอบมน (rounded corners) */
+    }
+    .img-thumbnail {
+    max-width: 100%; /* ทำให้ความกว้างของรูปไม่เกิน 100% ของพื้นที่ที่เรียกใช้ */
+    height: auto; /* ทำให้สัดส่วนรูปภาพไม่ถูกเสื่อมสภาพ */
+    display: block; /* กำหนดให้รูปภาพเป็นบล็อก, หรือลักษณะ inline-block */
+    margin: 0 auto; /* จัดวางตรงกลางในกรณีที่รูปภาพมีความกว้างน้อยกว่าพื้นที่ที่ใช้ */
+  }
+    /* Media Queries เพื่อปรับขนาดวิดีโอเมื่อขนาดจอใหญ่ขึ้น */
+    @media screen and (min-width: 1200px) {
+      .video-container {
+        padding-bottom: 30%;
+        /* ปรับค่า padding-bottom เมื่อขนาดจอใหญ่ขึ้น */
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg ">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="media1.html">TacTics</a>
+      <div>
+        <button id="logout" class="btn btn-sm btn-outline-danger">ออกจากระบบ</button>
+      </div>
+    </div>
+
+  </nav>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="media1.html">สื่อการสอน</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="exercise.html">แบบฝึกหัด</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="datauser.html">ข้อมูลส่วนตัว</a>
+    </li>
+  </ul>
+
+
+  <div class="row">
+    <div class="col-md-4 col-lg-2">
+      <div class="d-md-none">
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="responsiveDropdownButton"
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            เลือกหมวดหมู่
+          </button>
+          <div class="dropdown-menu" aria-labelledby="responsiveDropdownButton">
+            <a class="dropdown-item " href="#item-1">เนื้อหาที่ 1</a>
+            <a class="dropdown-item " href="#item-1-1">แผนการเล่นเกมรุก</a>
+            <a class="dropdown-item " href="#item-1-2">แผนการเล่นเกมรับ</a>
+            <a class="dropdown-item " href="#item-2">เนื้อหาที่ 2</a>
+            <a class="dropdown-item " href="#item-2-1">แผนการเล่น 4-4-2</a>
+            <a class="dropdown-item " href="#item-2-2">แผนการเล่น 3-5-2</a>
+            <a class="dropdown-item " href="#item-3">เนื้อหาที่ 3</a>
+            <a class="dropdown-item " href="#item-3-1">การเปลี่ยนจากเกมรับเป็นเกมรุก</a>
+            <a class="dropdown-item " href="#item-3-2">การเปลี่ยนจากเกมรุกเป็นเกมรับ</a>
+          </div>
+        </div>
+      </div>
+      <div class="d-none d-md-block">
+        <nav id="navbar-example3" class="h-100 flex-column align-items-stretch border-end">
+          <nav class="nav  flex-column">
+            <a class="nav-link " href="#item-1">เนื้อหาที่ 1</a>
+            <nav class="nav flex-column">
+              <a class="nav-link ms-3 my-1" href="#item-1-1">แผนการเล่นเกมรุก</a>
+              <a class="nav-link ms-3 my-1" href="#item-1-2">แผนการเล่นเกมรับ</a>
+            </nav>
+
+            <a class="nav-link" href="#item-2">เนื้อหาที่ 2</a>
+            <nav class="nav = flex-column">
+              <a class="nav-link ms-3 my-1" href="#item-2-1">แผนการเล่น 4-4-2</a>
+              <a class="nav-link ms-3 my-1" href="#item-2-2">แผนการเล่น 3-5-2</a>
+            </nav>
+            <a class="nav-link" href="#item-3">เนื้อหาที่ 3</a>
+            <nav class="nav = flex-column">
+              <a class="nav-link ms-3 my-1" href="#item-3-1">การเปลี่ยนจากเกมรับเป็นเกมรุก</a>
+              <a class="nav-link ms-3 my-1" href="#item-3-2">การเปลี่ยนจากเกมรุกเป็นเกมรับ</a>
+            </nav>
+          </nav>
+        </nav>
+      </div>
+    </div>
+
+
+    <div class="col-md-8 col-lg-10">
+      <div data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-smooth-scroll="true"
+        class="scrollspy-example-2" tabindex="0">
+        <div id="item-1" class="nav-content border rounded p-3">
+          <h4>Tactic football คืออะไร?</h4>
+          <center><img src="images/media-1.webp" class="img-thumbnail"></center>
+          <p></p>
+          <p>
+            "Tactic football" หรือ "ฟุตบอลทางกลยุทธ์"
+            เป็นแนวคิดในการเล่นฟุตบอลที่ใช้กลยุทธ์และการจัดระบบการเล่นเพื่อให้ทีมชนะในการแข่งขัน
+            โดยมุ่งเน้นการวางแผนการเล่นที่แม่นยำและมีความสอดคล้องกับคุณลักษณะของนักเตะและทีมของตนเอง
+            แนวคิดของฟุตบอลทางกลยุทธ์มักเน้นการควบคุมบอล การตีกลับ
+            การเสียบอลและการวางตำแหน่งให้เหมาะสมกับแผนการเล่นของทีม
+            โดยมีการใช้กลยุทธ์ต่าง ๆ เช่น การเล่นเซ้นต์แบ็ค, การทำประตูในการตอบโต้, การวางระบบการเล่นต่าง ๆ เป็นต้น
+            ซึ่งการวางแผนและการปฏิบัติตามกลยุทธ์เหล่านี้ช่วยเพิ่มโอกาสในการชนะในเกมฟุตบอลได้อย่างมีประสิทธิภาพมากขึ้น
+            การใช้ "tactic football"
+            ช่วยให้ทีมมีประสิทธิภาพในการเล่นและสามารถควบคุมเกมได้ดีขึ้น
+            นับว่าเป็นแนวทางที่สำคัญในการแข่งขันฟุตบอลในระดับทีมชาติและสโมสรชั้นนำทั่วโลก
+            การนำเสนอการเล่นทางกลยุทธ์เป็นส่วนสำคัญในการสร้างความสำเร็จในวงการฟุตบอลในปัจจุบัน
+          </p>
+        </div>
+        <p></p>
+
+        <div id="item-1-1" class="nav-content border rounded p-3">
+          <h5>แผนเกมรุก</h5>
+          <p></p>
+          <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/678r-7UGVac?si=4HYLTG6CBlf8E-e2"
+              title="YouTube video player" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+          <p></p>
+          <!-- ตัวอย่างการให้เครดิต -->
+          <p>วิดีโอโดย <a href="https://www.youtube.com/@zicochannel13" target="_blank"
+              rel="noopener noreferrer">Zico Channel</a> บน YouTube.</p>
+          <p></p>
+          <p>
+            แผนเกมรุก (attacking strategy) คือแผนการเล่นที่ทีมฟุตบอลใช้เพื่อโจมตีและทำประตูของทีมตรงข้าม
+            การพัฒนาแผนเกมรุกเป็นส่วนสำคัญของทีมฟุตบอลเพื่อที่จะสร้างโอกาสในการทำประตูและชนะเกม
+          </p>
+          <p>
+            บางคุณสมบัติของแผนเกมรุกที่มักจะถูกนำเสนอได้แก่:
+          </p>
+          <p>
+            1.การควบคุมบอล: การควบคุมบอลเป็นส่วนสำคัญในการตั้งแผนรุก
+            ทีมที่สามารถควบคุมบอลได้มีโอกาสสูงที่จะสร้างโอกาสในการทำประตู
+          </p>
+          <p>
+            2.การเคลื่อนไหว: การเคลื่อนไหวของนักเตะที่มีเป้าหมายในการเข้าสู่พื้นที่โปรด
+            หรือการสร้างพื้นที่เปิดให้นักเตะรับบอลมีทางเลือกมากขึ้น
+          </p>
+          <p>
+            3.การผ่านบอล: การผ่านบอลที่แม่นยำและรวดเร็วเป็นปัจจัยสำคัญในการทำประตู
+            การใช้ทักษะในการผ่านบอลที่ดีสามารถทำให้ทีมเคลื่อนไหวได้เร็วและมีประสิทธิภาพ
+          </p>
+          <p>
+            4.การครองบอล: การครองบอลและการทำเทคนิคในการหลบหลีกจากนักเตะตรงข้ามเป็นสิ่งที่สำคัญ
+            นักเตะที่มีความเชี่ยวชาญในการครองบอลอาจทำให้ทีมมีความยืดหยุ่นในการเล่นโจมตี
+          </p>
+          <p>
+            5.การสร้างโอกาส: การสร้างโอกาสในการทำประตูต้องการความคิดสร้างสรรค์และทักษะในการดำเนินบอลในพื้นที่ตรงข้าม
+          </p>
+          <p>
+            6.การเลือกตำแหน่งการโจมตี: การสร้างโอกาสในการทำประตูต้องการการเลือกตำแหน่งที่เหมาะสมของนักเตะในการโจมตี,
+            เช่น การใช้นักตกประตู, นักเตะในฐานะตัวกลาง, หรือแม้กระทั่งกองหลังที่มีความสามารถในการโจมตี
+          </p>
+          <p>
+            การพัฒนาแผนเกมรุกต้องให้ความสำคัญกับความสมดุลและการร่วมมือของทีมทั้งหมด, การปรับตัวต่อสถานการณ์,
+            และการใช้ทักษะของนักเตะอย่างเต็มที่
+          </p>
+        </div>
+        <p></p>
+        <div id="item-1-2" class="nav-content border rounded p-3">
+          <h5>แผนเกมรับ</h5>
+          <p></p>
+          <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/jnTmE2oxv1s?si=dZLb5rXJdKxnOddZ"
+              title="YouTube video player" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+          <p></p>
+          <!-- ตัวอย่างการให้เครดิตในภาษาไทย -->
+          <p>วิดีโอโดย <a href="https://www.youtube.com/@zicochannel13" target="_blank"
+            rel="noopener noreferrer">Zico Channel</a> บน YouTube.</p>
+
+          <p></p>
+          <p>
+            แผนเกมรับหมายถึงการวางแผนยุทธวิธีที่ทีมฟุตบอลใช้เพื่อป้องกันไม่ให้ทีมตรงข้ามทำประตู ในระหว่างการเล่นรับ,
+            ทีมจะมีการจัดระบบป้องกันเพื่อยับยั้งการโจมตีของทีมตรงข้าม นี่คือบางคุณลักษณะของแผนเกมรับ:
+          </p>
+          <p>
+            1.การจัดแนวรับ: ทีมรับจะมีการจัดแนวรับที่เข้มงวด, โดยมักจะมีกองหลังที่เป็นกลุ่มหนึ่งหรือสองกลุ่ม
+            การจัดแนวรับที่ดีจะช่วยให้ทีมมีความสามารถในการป้องกันอย่างมีประสิทธิภาพ
+          </p>
+          <p>
+            2.การกดมีบทบาทสำคัญ: ทีมรับมักจะใช้การกดมีบทบาทสำคัญในการยับยั้งการเล่นของทีมตรงข้าม
+            การกดมีได้ทั้งการกดแบบสูงและกดแบบต่ำ
+          </p>
+          <p>
+            3.การป้องกันส่วนกลาง: ทีมรับมักมีการป้องกันส่วนกลางที่แข็งแกร่ง,
+            ทำให้ยากต่อทีมตรงข้ามในการเข้าสู่พื้นที่และสร้างโอกาส
+          </p>
+          <p>
+            4.การป้องกันจากการทำประตู: ทีมรับต้องมีการป้องกันที่ดีในพื้นที่ประตู เพื่อป้องกันไม่ให้ทีมตรงข้ามทำประตู
+            นักป้องกันและผู้รักษาประตูมักมีบทบาทสำคัญในการป้องกันจากการทำประตู
+          </p>
+          <p>
+            5.ความยืดหยุ่น: แม้ว่าทีมรับจะเน้นการป้องกัน,
+            แต่ยังต้องมีความยืดหยุ่นในการเปลี่ยนแปลงแผนการเล่นตามสถานการณ์ของเกม
+          </p>
+          <p>
+            แผนเกมรับมักจะต้องถูกปรับเปลี่ยนตามสถานการณ์ของเกมและทีมตรงข้ามเพื่อให้มีประสิทธิภาพที่สูงสุดในการป้องกัน
+          </p>
+        </div>
+        <p></p>
+        <div id="item-2" class="nav-content border rounded p-3">
+          <h4>แผนการเล่น ต่างๆ</h4>
+          <p>ในกีฬาฟุตบอล จะบ่งบอกถึงการที่ผู้เล่นในทีมจะยืนตำแหน่งใดในสนาม
+            ซึ่งฟุตบอลเป็นเกมที่มีความยืดหยุ่นและเร็ว (ยกเว้น ผู้รักษาประตู)
+            ผู้เล่นอาจจะปรับเปลี่ยนตำแหน่งได้ในระหว่างการแข่งขัน เช่นในรักบี้
+            ผู้เล่นจะไม่ยืนเป็นแถวในตำแหน่งเดิมตลอดเวลา
+            อย่างไรก็ตาม การกำหนดตำแหน่งมีเพื่ออธิบายถึงผู้เล่นในตำแหน่งนั้นว่าจะเน้นการรุกหรือรับ
+            หรือการเล่นในด้านใดด้านหนึ่งของสนาม
+          </p>
+
+          <p>แผนการเล่นจะอธิบายด้วยตัวเลขจำนวน 3–4 ตัว (หรืออาจจะมากกว่านั้นในแผนการเล่นฟุตบอลสมัยใหม่)
+            โดยตัวเลขจะแสดงตั้งแต่แถวของผู้เล่นในตำแหน่งเกมรับไปจนถึงเกมรุก เช่น 4–5–1 แผนการเล่นนี้จะมีกองหลัง 4 คน,
+            กองกลาง 5 คน
+            และ กองหน้า 1 คน
+            โดยในแต่ละช่วงเวลาของการแข่งขันอาจจะใช้แผนการเล่นที่แตกต่างกันไปตามกลยุทธ์และสถานการณ์ของทีม
+          </p>
+          <p>
+            การเลือกแผนการเล่นจะเลือกโดยผู้จัดการทีมหรือหัวหน้าผู้ฝึกสอนของทีม
+            ทักษะและวินัยของผู้เล่นเป็นสิ่งที่สำคัญในการเล่นฟุตบอลอาชีพ
+            แผนการเล่นอาจจะถูกเลือกตามผู้เล่นที่มีอยู่ให้เหมาะสมกับตำแหน่งที่ถนัด
+            หรือบางแผนการเล่นจะใช้เพื่อกำจัดจุดอ่อนหรือเพิ่มจุดแข็งของทีมด้วยทักษะของผู้เล่นแต่ละคน
+          </p>
+        </div>
+        <p></p>
+        <div id="item-2-1" class="nav-content border rounded p-3">
+          <h5>แผนการเล่น 4-4-2</h5>
+          <p></p>
+          <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/OjyZZ1oul6Y?si=RKQ1a6sNeY8m5CKo"
+              title="YouTube video player" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+          <p></p>
+          <p>วิดีโอโดย <a href="https://www.youtube.com/@tuatepfootball" target="_blank"
+            rel="noopener noreferrer">ตัวเทพ ฟุตบอล</a> บน YouTube.</p>
+          <p></p>
+
+          <p>
+            ระบบการเล่นฟุตบอล 4-4-2 เป็นหนึ่งในระบบที่ใช้สี่กองหลัง, สี่นักกองกลาง, และสองนักตกประตู.
+            นี่คือลักษณะหลักของระบบการเล่น 4-4-2:
+          </p>
+          <p></p>
+          <p>
+            1.กองหลัง (4 คน): มีสี่นักเตะกองหลังที่แบ่งเป็นฝั่งขวา, ฝั่งซ้าย, และสองนักเตะกลาง
+            กองหลังมีหน้าที่ป้องกันและก่อการรุนแรงในพื้นที่ป้องกัน
+          </p>
+          <p>
+            2.กองกลาง (4 คน): มีสี่นักเตะกองกลางที่แบ่งเป็นกองกลางระหว่าง, กองกลางด้านซ้าย, กองกลางด้านขวา,
+            และนักกองกลางระหว่างแถว
+            การใช้กองกลางสี่คนช่วยให้ทีมมีความสมดุลในการควบคุมบอลและการโต้กลับ
+          </p>
+          <p>
+            3.นักตกประตู (2 คน): มีสองนักตกประตูที่มีหน้าที่การทำประตู
+            ซึ่งมักจะแบ่งหน้าที่อย่างชัดเจนเป็นนักตกประตูหลักและนักตกประตูรอง
+          </p>
+          <p>
+            4.ความยืดหยุ่น: 4-4-2 เป็นระบบที่มีความสมดุลในทั้งการป้องกันและการโจมตี
+            มีแนวโน้มที่สามารถปรับเปลี่ยนรูปแบบการเล่นได้ตามสถานการณ์ของเกม
+          </p>
+          <p>
+            5.ข้อดีและข้อเสีย: ระบบนี้มีความเข้าใจง่ายและมักให้ความมั่นคง.
+            มีการสนับสนุนจากกองกลางทั้งสี่คนทำให้ทีมสามารถควบคุมบอลได้ดี อย่างไรก็ตาม,
+            4-4-2 อาจขาดความยืดหยุ่นในการปรับตัวต่อสถานการณ์ต่าง ๆ
+            และอาจต้องการนักเตะที่มีความพร้อมทั้งในการโจมตีและป้องกัน
+          </p>
+          <p>
+            การเล่น 4-4-2 ต้องการความเข้าใจและความสามารถของนักเตะทั้งหมด,
+            และการทำงานร่วมกันอย่างเป็นทีมเพื่อสร้างความสมดุลในทุกส่วนของสนาม
+          </p>
+          <div class="text-center">
+            <img src="images/media.svg.png" class="img-thumbnail">
+          </div>
+
+        </div>
+        <p></p>
+        <div id="item-2-2" class="nav-content border rounded p-3">
+          <h5>แผนการเล่น 3-5-2</h5>
+          <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/pZp_Io6D1Xg?si=EZHfN9Ti3TtM-pc2"
+              title="YouTube video player" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+          <p></p>
+          <p>วิดีโอโดย <a href="https://www.youtube.com/@channel-qz9jb" target="_blank"
+            rel="noopener noreferrer">พรานหงส์ channel</a> บน YouTube.</p>
+          <p></p>
+          <p>
+            ระบบการเล่นฟุตบอล 3-5-2 เป็นหนึ่งในระบบที่ใช้สามลูกบอลกองหลัง ห้ากองกลาง และสองนักตกประตู
+            ซึ่งมีลักษณะที่แตกต่างจากระบบอื่น ๆ
+            ที่มีจำนวนกองหลังน้อยกว่า หรือมีแนวตั้งหรือแนวนอนเพิ่มเติมในส่วนของกองกลาง. นี่คือลักษณะหลักของระบบการเล่น
+            3-5-2:
+          </p>
+          <p>
+            1.กองหลัง (3 คน): มีสามนักเตะกองหลังที่เป็นหลักของการป้องกัน
+            สามนักเตะเหล่านี้มักจะเป็นนักเตะที่มีความแข็งแกร่งและสามารถใช้ทักษะการตัดบอลได้ดี
+          </p>
+          <p>
+            2.กองกลาง (5 คน): มีห้านักเตะกองกลางที่แบ่งเป็นกองกลางระหว่าง, กองกลางด้านซ้าย, กองกลางด้านขวา,
+            และนักกองกลางระหว่างแถว
+            การใช้กองกลางหลายคนช่วยให้ทีมมีความสามารถในการควบคุมบอลและการเล่นสายตายได้ดี
+          </p>
+          <p>
+            3.นักตกประตู (2 คน): มีสองนักตกประตูที่มีหน้าที่การทำประตู และมีความยืดหยุ่นในการเคลื่อนไหวระหว่างการตีประตู
+          </p>
+          <p>
+            4.ความยืดหยุ่น: ระบบ 3-5-2 มีความยืดหยุ่นที่ดีในการปรับเปลี่ยนรูปแบบการเล่น สามารถเปลี่ยนเป็น 5-3-2
+            ในกรณีที่ต้องการเสริมแนวป้องกันหรือเปลี่ยนเป็น 3-4-3 ในกรณีที่ต้องการเพิ่มพลังโจมตี.
+          </p>
+          <p>
+            5.ข้อดีและข้อเสีย: ระบบนี้มีความสามารถในการควบคุมบอลและเล่นสายตาย,
+            แต่ในบางกรณีอาจทำให้โค้ชต้องการนักเตะที่มีความแข็งแกร่งและสามารถทำหน้าที่ทั้งในการป้องกันและการโจมตีได้
+          </p>
+          <p>
+            การเล่น 3-5-2 ต้องการความเข้าใจทั้งทางทักษะและทางทีมของนักเตะทั้งหมด, และการปรับตัวต่อสถานการณ์ต่าง ๆ ในเกม.
+          </p>
+          <div class="text-center">
+            <img src="images/media-2.2.jpg" class="img-thumbnail">
+          </div>
+
+        </div>
+        <p></p>
+        <div id="item-3" class="nav-content border rounded p-3">
+          <h4>การเปลี่ยนแผนระหว่างการเล่น</h4>
+          <p>
+            การเปลี่ยนแผนระหว่างการเล่นของฟุตบอลมีหลายวิธีและกลยุทธ์ที่ทีมฟุตบอลสามารถนำมาใช้ตามสถานการณ์และเป้าหมายที่ต้องการ
+            ต่อไปนี้คือบางวิธีที่ทีมฟุตบอลสามารถใช้เพื่อเปลี่ยนแผนระหว่างเกม:
+          </p>
+          <p>
+            1.การเปลี่ยนตำแหน่งผู้เล่น:
+            ทีมสามารถทำการเปลี่ยนตำแหน่งของผู้เล่นในสนามเพื่อเพิ่มความเข้มแข็งหรือสร้างโอกาสในส่วนที่ต้องการ
+            ยกตัวอย่างเช่น, การเปลี่ยนผู้รุมเป้าเป็นตำแหน่งที่ตั้งเพื่อสร้างการโจมตีที่แตกต่าง.
+          </p>
+          <p>
+            2.การเปลี่ยนระบบการเล่น: ทีมสามารถเปลี่ยนระบบการเล่น, เช่น การเปลี่ยนจากระบบ 4-4-2 เป็น 3-5-2 หรือ 4-3-3
+            เพื่อปรับการควบคุมที่กำลังเกิดขึ้นในสนาม
+          </p>
+          <p>
+            3.การเปลี่ยนกลยุทธ์: ทีมสามารถเปลี่ยนกลยุทธ์การเล่น, เช่น
+            การเปลี่ยนจากการโจมตีต่อสู้ไปเป็นการป้องกันแนวหลัง,
+            หรือการเพิ่มความสูงในการโจมตีโดยการให้ทีมใช้บุกมากขึ้น
+          </p>
+          <p>
+            4.การเปลี่ยนผู้เล่นเข้า-ออก: ทีมสามารถทำการเปลี่ยนผู้เล่นที่อยู่ในสนามเพื่อเพิ่มพลังโจมตีหรือป้องกัน,
+            หรือเพื่อการรักษาสภาพร่างกายของผู้เล่นที่มีบาดเจ็บหรือเหนื่อย
+          </p>
+          <p>
+            การเปลี่ยนแผนระหว่างการเล่นเป็นกลยุทธ์ที่สำคัญในฟุตบอลเพื่อปรับตัวต่อสถานการณ์ในสนามและทำให้ทีมมีประสิทธิภาพมากที่สุด
+            การตัดสินใจในการเปลี่ยนแผนต้องพิจารณาถึงความสามารถของผู้เล่น, ความแข็งแกร่งของทีมตรงข้าม,
+            และเป้าหมายของทีมในเกมนั้น ๆ
+          </p>
+        </div>
+        <p></p>
+        <div id="item-3-1" class="nav-content border rounded p-3">
+          <h5>เปลี่ยนเป็นเกมบุก</h5>
+          <p>
+            เมื่อทีมกำลังถูกนำอยู่ อาจจะทำการเปลี่ยนผู้เล่นกองหลังหรือกองกลางออก แล้วเปลี่ยนกองหน้าลงมาเล่นแทน
+            เช่น เปลี่ยนจาก 4–5–1 เป็น 4–4–2, 3–5–2 เป็น 3–4–3 หรือ 5–3–2 เป็น 4–3–3
+          </p>
+        </div>
+        <p></p>
+        <div id="item-3-2" class="nav-content border rounded p-3">
+          <h5>เปลี่ยนเป็นตั้งรับ</h5>
+          <p>
+            เมื่อทีมกำลังนำอยู่หรือต้องการที่จะป้องกันประตู
+            ผู้จัดการทีมอาจจะเลือกที่จะเปลี่ยนผู้เล่นในเกมรับด้วยการเปลี่ยนกองหน้าออก
+            หรือเพิ่มตำแหน่งในกองกลาง เพื่อเพิ่มประสิทธิภาพในการคุมพื้นที่ เช่น เปลี่ยนจาก 4–4–2 เป็น 5–3–2, 3–5–2 เป็น
+            4–5–1
+            หรือ 4–4–2 เป็น 5–4–1 แผนการเล่นของทีมอาจจะไม่ใช่แผนการเล่นจริงในสนาม เช่น ทีมที่ใช้แผนการเล่น 4–3–3
+            สามารถเปลี่ยนเป็น 4–5–1 ได้อย่างรวดเร็วหากผู้จัดการทีมต้องการผู้เล่นไปช่วยในเกมรับมากขึ้น
+          </p>
+        </div>
+        <p></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+
+  <script src="firebaseConfig.js" type="module"></script>
+  <script src="logout.js" type="module"></script>
+
+
+</body>
+
+</html>
